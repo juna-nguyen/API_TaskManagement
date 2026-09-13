@@ -19,18 +19,24 @@ const options = {
     },
     servers: [
       {
-        url: process.env.API_URL || "http://localhost:3000",
+        url: "/", // Thay bằng domain Railway thật của bạn
+        description: "Môi trường Production (Railway)",
+      },
+      {
+        url: "/",
         description: "Môi trường phát triển local",
       },
     ],
     tags: [
       {
         name: "Tasks",
-        description: "Quản lý task: xem danh sách, chi tiết, tạo, cập nhật, chuyển trạng thái và xóa.",
+        description:
+          "Quản lý task: xem danh sách, chi tiết, tạo, cập nhật, chuyển trạng thái và xóa.",
       },
       {
         name: "System",
-        description: "Các endpoint hệ thống như health check và tài liệu Swagger JSON.",
+        description:
+          "Các endpoint hệ thống như health check và tài liệu Swagger JSON.",
       },
     ],
     paths: {
@@ -41,7 +47,7 @@ const options = {
           description: "Trả về thông báo xác nhận server API đang hoạt động.",
           operationId: "healthCheck",
           responses: {
-            "200": {
+            200: {
               description: "Server đang hoạt động.",
               content: {
                 "text/html": {
@@ -57,10 +63,11 @@ const options = {
         get: {
           tags: ["System"],
           summary: "Lấy tài liệu OpenAPI dạng JSON",
-          description: "Trả về specification OpenAPI 3.0 của API dưới dạng JSON.",
+          description:
+            "Trả về specification OpenAPI 3.0 của API dưới dạng JSON.",
           operationId: "getSwaggerJson",
           responses: {
-            "200": {
+            200: {
               description: "Tài liệu OpenAPI 3.0.",
               content: {
                 "application/json": {
@@ -86,7 +93,8 @@ const options = {
               name: "title",
               in: "query",
               required: false,
-              description: "Tìm theo tiêu đề task (so khớp một phần, không phân biệt hoa thường).",
+              description:
+                "Tìm theo tiêu đề task (so khớp một phần, không phân biệt hoa thường).",
               schema: { type: "string", example: "mua" },
             },
             {
@@ -123,11 +131,15 @@ const options = {
               required: false,
               description:
                 "Sắp xếp theo field. Ví dụ: `-createdAt` (giảm dần) hoặc `priority` (tăng dần).",
-              schema: { type: "string", default: "-createdAt", example: "-createdAt" },
+              schema: {
+                type: "string",
+                default: "-createdAt",
+                example: "-createdAt",
+              },
             },
           ],
           responses: {
-            "200": {
+            200: {
               description: "Danh sách tasks kèm metadata phân trang.",
               content: {
                 "application/json": {
@@ -158,7 +170,7 @@ const options = {
                 },
               },
             },
-            "500": { $ref: "#/components/responses/InternalServerError" },
+            500: { $ref: "#/components/responses/InternalServerError" },
           },
         },
         post: {
@@ -195,7 +207,7 @@ const options = {
             },
           },
           responses: {
-            "201": {
+            201: {
               description: "Task đã được tạo thành công.",
               content: {
                 "application/json": {
@@ -218,7 +230,7 @@ const options = {
                 },
               },
             },
-            "400": { $ref: "#/components/responses/BadRequest" },
+            400: { $ref: "#/components/responses/BadRequest" },
           },
         },
       },
@@ -239,10 +251,11 @@ const options = {
         get: {
           tags: ["Tasks"],
           summary: "Lấy chi tiết task theo id",
-          description: "Trả về thông tin chi tiết của một task dựa trên MongoDB ObjectId.",
+          description:
+            "Trả về thông tin chi tiết của một task dựa trên MongoDB ObjectId.",
           operationId: "getTaskById",
           responses: {
-            "200": {
+            200: {
               description: "Task tìm thấy.",
               content: {
                 "application/json": {
@@ -265,7 +278,7 @@ const options = {
                 },
               },
             },
-            "400": {
+            400: {
               description: "Task ID không hợp lệ.",
               content: {
                 "application/json": {
@@ -279,8 +292,8 @@ const options = {
                 },
               },
             },
-            "404": { $ref: "#/components/responses/NotFound" },
-            "500": { $ref: "#/components/responses/InternalServerError" },
+            404: { $ref: "#/components/responses/NotFound" },
+            500: { $ref: "#/components/responses/InternalServerError" },
           },
         },
         put: {
@@ -310,7 +323,7 @@ const options = {
             },
           },
           responses: {
-            "200": {
+            200: {
               description: "Task đã được cập nhật.",
               content: {
                 "application/json": {
@@ -333,8 +346,8 @@ const options = {
                 },
               },
             },
-            "400": { $ref: "#/components/responses/BadRequest" },
-            "404": { $ref: "#/components/responses/NotFound" },
+            400: { $ref: "#/components/responses/BadRequest" },
+            404: { $ref: "#/components/responses/NotFound" },
           },
         },
         delete: {
@@ -343,7 +356,7 @@ const options = {
           description: "Xóa vĩnh viễn một task theo MongoDB ObjectId.",
           operationId: "deleteTask",
           responses: {
-            "200": {
+            200: {
               description: "Task đã bị xóa.",
               content: {
                 "application/json": {
@@ -357,8 +370,8 @@ const options = {
                 },
               },
             },
-            "404": { $ref: "#/components/responses/NotFound" },
-            "500": { $ref: "#/components/responses/InternalServerError" },
+            404: { $ref: "#/components/responses/NotFound" },
+            500: { $ref: "#/components/responses/InternalServerError" },
           },
         },
       },
@@ -405,7 +418,7 @@ const options = {
             },
           },
           responses: {
-            "200": {
+            200: {
               description: "Task đã được chuyển trạng thái.",
               content: {
                 "application/json": {
@@ -428,7 +441,7 @@ const options = {
                 },
               },
             },
-            "400": {
+            400: {
               description: "Dữ liệu không hợp lệ hoặc vi phạm business rules.",
               content: {
                 "application/json": {
@@ -441,15 +454,16 @@ const options = {
                     invalidTransition: {
                       summary: "Chuyển trạng thái không hợp lệ",
                       value: {
-                        message: "Chuyển trạng thái không hợp lệ. Không thể chuyển từ DONE sang TODO",
+                        message:
+                          "Chuyển trạng thái không hợp lệ. Không thể chuyển từ DONE sang TODO",
                       },
                     },
                   },
                 },
               },
             },
-            "404": { $ref: "#/components/responses/NotFound" },
-            "500": { $ref: "#/components/responses/InternalServerError" },
+            404: { $ref: "#/components/responses/NotFound" },
+            500: { $ref: "#/components/responses/InternalServerError" },
           },
         },
       },
@@ -473,7 +487,14 @@ const options = {
         Task: {
           type: "object",
           description: "Task trong hệ thống.",
-          required: ["_id", "title", "status", "priority", "createdAt", "updatedAt"],
+          required: [
+            "_id",
+            "title",
+            "status",
+            "priority",
+            "createdAt",
+            "updatedAt",
+          ],
           properties: {
             _id: {
               type: "string",
@@ -540,7 +561,8 @@ const options = {
         },
         UpdateTaskRequest: {
           type: "object",
-          description: "Các field có thể cập nhật. `createdAt` nếu gửi sẽ bị bỏ qua.",
+          description:
+            "Các field có thể cập nhật. `createdAt` nếu gửi sẽ bị bỏ qua.",
           properties: {
             title: {
               type: "string",

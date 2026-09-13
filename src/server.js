@@ -15,7 +15,11 @@ app.get("/", (req, res) => {
 const swaggerUi = require("swagger-ui-express");
 const swaggerSpec = require("./swagger/swagger");
 
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec, { explorer: true }));
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerSpec, { explorer: true }),
+);
 app.get("/swagger.json", (req, res) => {
   res.json(swaggerSpec);
 });
@@ -23,6 +27,6 @@ app.get("/swagger.json", (req, res) => {
 const taskRoutes = require("./routes/taskRoutes");
 app.use("/api/tasks", taskRoutes);
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`🚀 Server đang chạy tại cổng ${PORT}`);
 });

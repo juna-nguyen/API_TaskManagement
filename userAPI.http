@@ -1,5 +1,5 @@
 //Tạo mới user
-POST http://localhost:3001/api/users
+POST https://crud-user-production-f2a5.up.railway.app/api-docs
 Content-Type: application/json
 
 {
